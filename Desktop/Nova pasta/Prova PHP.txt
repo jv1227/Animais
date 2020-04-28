@@ -1,0 +1,53 @@
+1. COMO EXIBIR OS DADOS DO BD EM UMA TABELA:
+<?php
+			
+$sql = "SELECT * FROM members";	
+$result = $connect->query($sql); //consulta  variavel sql
+if($result->num_rows > 0) {  //abre o comando e o que for maior que 0 vai exibir
+while($row = $result->fetch_assoc()) {  //mostrar os dados da tabela consultada
+echo "<tr>
+						<td>".$row['marca']."</td>
+						<td>".$row['nome']."</td>
+						<td>".$row['placa']."</td>
+						<td>".$row['foto']."</td>
+						<td>".$row['obs']."</td>
+						<td>
+<a href='edit.php?id=".$row['id']."'><button type='button'>Edit</button></a>
+<a href='remove.php?id=".$row['id']."'><button type='button'>Remove</button></a>
+</td>
+</tr>";
+}
+} else {
+echo "<tr><td colspan='5'><center>No Data Avaliable</center></td></tr>";
+			}
+?>
+
+2. AÇÃO EM PHP PARA INSERIR OS DADOS DOS CAMPOS NO BD:
+<?php 
+
+require_once 'db_connect.php';
+
+if($_POST) {
+	$marca = $_POST['marca'];
+	$nome = $_POST['nome'];
+	$placa = $_POST['placa'];
+	$foto = $_FILES['foto']['tmp_name'];
+	$obs = $_POST['obs'];
+}
+
+ 
+    $sql = "INSERT INTO members (marca, nome, placa, foto, obs) VALUES ('$marca', '$nome', '$placa', '$novoDestino', '$obs')";
+	if($connect->query($sql) === TRUE) {
+		echo "<p>New Record Successfully Created</p>";
+		echo "<a href='../generic.php'><button type='button'>Back</button></a>";
+		echo "<a href='../index.html'><button type='button'>Home</button></a>";
+	} else {
+		echo "Error " . $sql . ' ' . $connect->connect_error;
+	}
+
+	$connect->close();
+
+?>
+
+
+- ESTUDAR OS CODIGOS DE AÇÃO PHP DO HTML5
